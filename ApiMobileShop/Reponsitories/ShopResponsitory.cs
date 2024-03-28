@@ -10,10 +10,10 @@ namespace ApiMobileShop.Reponsitories
         {
             _shopmodel = shopmodel;
         }
-
-        public List<Shop> GetAllProducts()
+        public IEnumerable<Shop> GetAllProducts()
         {
             return _shopmodel.Shops.ToList();
         }
+
     }
 }

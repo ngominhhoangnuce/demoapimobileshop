@@ -49,7 +49,7 @@ builder.Services.AddSwaggerGen(c => {
 
 builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
 {
-    options.Authority = "https://localhost:7154/";
+    options.Authority = "http://localhost:7154/";
     options.TokenValidationParameters = new TokenValidationParameters { ValidateAudience = false };
     options.RequireHttpsMetadata = false;
 });

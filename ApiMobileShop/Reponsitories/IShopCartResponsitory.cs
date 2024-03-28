@@ -1,12 +1,15 @@
 ﻿using ApiMobileShop.Data;
 
+
 namespace ApiMobileShop.Reponsitories
 {
     public interface IShopCartResponsitory
     {
-        List<ShopCart> GetCartItems();
-        void AddToCart(ShopCart ShopCart);
-        void UpdateCartItem(ShopCart ShopCart);
-        void RemoveCart(int ShopCartID);
+        IEnumerable<ShopCart> GetAllCartItems();
+        ShopCart GetById(int ShopCartID);
+        void Add(ShopCart item);
+        void Update(ShopCart item);
+        void Delete(ShopCart item);
+        //ShopCart CreateOrder(int ShopProductID, string Price, int Soluong);
     }
 }

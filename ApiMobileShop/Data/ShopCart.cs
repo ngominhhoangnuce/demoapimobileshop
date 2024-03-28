@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ApiMobileShop.Data
 {
     [Table("ShopCart")]
-    public class ShopCart
+    public class ShopCart           
     {
         [Key]
         public int Id { get; set; }

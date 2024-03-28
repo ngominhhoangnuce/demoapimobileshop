@@ -7,7 +7,7 @@ namespace ApiMobileShop.Models
         [Key]
         public int ShopProductID { get; set; }
         [Required]
-        [Range(0, 10000000)]
+        [Range(0, 100000000)]
         public decimal Price { get; set; }
         [Required]
         public string TenSp { get; set; }

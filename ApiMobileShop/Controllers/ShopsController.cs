@@ -8,7 +8,6 @@ namespace ApiMobileShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ShopsController : ControllerBase
     {
         private readonly IShopResponsitory _shopmodel;
@@ -19,10 +18,17 @@ namespace ApiMobileShop.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<ShopModel>> GetAllProducts()
+        public IActionResult GetAllProducts()
         {
-            var products = _shopmodel.GetAllProducts();
-            return Ok(products);
+            try
+            {
+                var shops = _shopmodel.GetAllProducts(); // Lấy tất cả dữ liệu từ bảng Shop
+                return Ok(shops);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

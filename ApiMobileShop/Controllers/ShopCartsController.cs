@@ -18,44 +18,58 @@ namespace ApiMobileShop.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<ShopCartModel>> GetCartItems()
+        public IActionResult GetAllCartItems()
         {
-            var ShopCarts = _shopcartRepository.GetCartItems();
-            return Ok(ShopCarts);
+            try
+            {
+                var shopcarts = _shopcartRepository.GetAllCartItems(); // Lấy tất cả dữ liệu từ bảng Shopcarts
+                return Ok(shopcarts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPost("Add")]
-        public ActionResult AddToCart([FromBody] ShopCart ShopCart)
+        [HttpGet("{id}")]
+        public IActionResult GetById(int ShopCartID)
         {
-            if (ShopCart == null || ShopCart.ShopCartID <= 0 || ShopCart.Soluong <= 0 || ShopCart.Price <= 0)
+            var item = _shopcartRepository.GetById(ShopCartID);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
+        [HttpPost]
+        public IActionResult Add(ShopCart item)
+        {
+            _shopcartRepository.Add(item);
+            return CreatedAtAction(nameof(GetById), new { ShopCartID = item.ShopCartID }, item);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int ShopCartID,ShopCart item)
+        {
+            if (ShopCartID != item.Id)
             {
                 return BadRequest();
             }
-
-            _shopcartRepository.AddToCart(ShopCart);
-
-            return Ok();
+            _shopcartRepository.Update(item);
+            return NoContent();
         }
 
-        [HttpPut("Update")]
-        public ActionResult UpdateCartItem([FromBody] ShopCart ShopCart)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int ShopCartID)
         {
-            if (ShopCart == null || ShopCart.ShopCartID <= 0 || ShopCart.Soluong <= 0)
+            var item = _shopcartRepository.GetById(ShopCartID);
+            if (item == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-
-            _shopcartRepository.UpdateCartItem(ShopCart);
-
-            return Ok();
-        }
-
-        [HttpDelete("{ShopCartID}")]
-        public ActionResult RemoveCart(int ShopCartID)
-        {
-            _shopcartRepository.RemoveCart(ShopCartID);
-
-            return Ok();
+            _shopcartRepository.Delete(item);
+            return NoContent();
         }
     }
 }
