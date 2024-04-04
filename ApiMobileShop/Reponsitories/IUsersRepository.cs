@@ -2,7 +2,7 @@
 
 namespace ApiMobileShop.Reponsitories
 {
-    public interface IUsersResponsitory
+    public interface IUsersRepository
     {
         List<User> GetUsers();
         User GetUserById(int UserId);

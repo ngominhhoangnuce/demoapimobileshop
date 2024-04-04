@@ -16,5 +16,5 @@
         public int Description { get; set; }
         public int Soluong { get; set; }
         public decimal Price { get; set; }
-    }
+    }   
 }

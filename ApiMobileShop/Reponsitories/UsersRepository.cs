@@ -3,11 +3,11 @@ using ApiMobileShop.Models;
 
 namespace ApiMobileShop.Reponsitories
 {
-    public class UsersResponsitory : IUsersResponsitory
+    public class UsersRepository : IUsersRepository
     {
         private readonly MobileContext _shopuser;
 
-        public UsersResponsitory(MobileContext shopuser)
+        public UsersRepository(MobileContext shopuser)
         {
             _shopuser = shopuser;
         }

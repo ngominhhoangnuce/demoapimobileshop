@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiMobileShop.Reponsitories
 {
-    public class ShopCardResponsitory : IShopCartResponsitory
+    public class ShopCardRepository : IShopCartRepository
     {
         private readonly MobileContext _shopcartResponsitory;
 
-        public ShopCardResponsitory(MobileContext shopcart)
+        public ShopCardRepository(MobileContext shopcart)
         {
             _shopcartResponsitory = shopcart;
         }
@@ -16,7 +16,7 @@ namespace ApiMobileShop.Reponsitories
         public IEnumerable<ShopCart> GetAllCartItems()
         {
             return _shopcartResponsitory.ShopCarts.ToList();
-        }
+        }   
         public ShopCart GetById(int ShopCartID)
         {
             return _shopcartResponsitory.ShopCarts.Find(ShopCartID);

@@ -5,15 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiMobileShop.Data
 {
-    public class MobileContext:DbContext
+    public class MobileContext : DbContext
     {
         public MobileContext(DbContextOptions<MobileContext> options) : base(options) { }
 
         #region DbSet
-        public DbSet<Shop> Shops { get; set; }
-        public DbSet<ShopCart> ShopCarts { get; set; }
-        public DbSet<ShopProduct> ShopProducts { get; set; }
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<Shop> Shops { get; set; }
+        public virtual DbSet<ShopCart> ShopCarts { get; set; }
+        public virtual DbSet<ShopProduct> ShopProducts { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

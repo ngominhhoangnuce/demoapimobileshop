@@ -10,9 +10,9 @@ namespace ApiMobileShop.Controllers
     [ApiController]
     public class ShopsController : ControllerBase
     {
-        private readonly IShopResponsitory _shopmodel;
+        private readonly IShopRepository _shopmodel;
 
-        public ShopsController(IShopResponsitory shopmodel)
+        public ShopsController(IShopRepository shopmodel)
         {
             _shopmodel = shopmodel;
         }

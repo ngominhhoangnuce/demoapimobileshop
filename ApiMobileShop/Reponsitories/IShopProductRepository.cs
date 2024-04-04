@@ -2,7 +2,7 @@
 
 namespace ApiMobileShop.Reponsitories
 {
-    public interface IShopProductResponsitory
+    public interface IShopProductRepository
     {
         ShopProduct GetProductById(int ShopProductID);
     }

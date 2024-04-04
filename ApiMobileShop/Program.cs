@@ -1,5 +1,6 @@
 using ApiMobileShop.Data;
 using ApiMobileShop.Reponsitories;
+using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -61,12 +62,14 @@ builder.Services.AddDbContext<MobileContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyMobileStore"));
 });
 
-builder.Services.AddScoped<IUsersResponsitory, UsersResponsitory>();
-builder.Services.AddScoped<IShopResponsitory, ShopResponsitory>();
-builder.Services.AddScoped<IShopCartResponsitory, ShopCardResponsitory>();
-builder.Services.AddScoped<IShopProductResponsitory, ShopProductResponsitory>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<IShopCartRepository, ShopCardRepository>();
+builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IShopProductRepository, ShopProductRepository>();
 
-var app = builder.Build();
+    var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -2,11 +2,11 @@
 
 namespace ApiMobileShop.Reponsitories
 {
-    public class ShopResponsitory : IShopResponsitory
+    public class ShopRepository : IShopRepository
     {
         private readonly MobileContext _shopmodel;
 
-        public ShopResponsitory(MobileContext shopmodel)
+        public ShopRepository(MobileContext shopmodel)
         {
             _shopmodel = shopmodel;
         }

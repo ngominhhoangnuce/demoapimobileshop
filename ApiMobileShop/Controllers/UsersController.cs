@@ -11,9 +11,9 @@ namespace ApiMobileShop.Controllers
 
     public class UserController : ControllerBase
     {
-        private readonly IUsersResponsitory _usershop;
+        private readonly IUsersRepository _usershop;
 
-        public UserController(IUsersResponsitory usershop)
+        public UserController(IUsersRepository usershop)
         {
             _usershop = usershop;
         }

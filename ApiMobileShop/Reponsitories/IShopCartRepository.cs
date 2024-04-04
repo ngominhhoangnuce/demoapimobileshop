@@ -3,7 +3,7 @@
 
 namespace ApiMobileShop.Reponsitories
 {
-    public interface IShopCartResponsitory
+    public interface IShopCartRepository
     {
         IEnumerable<ShopCart> GetAllCartItems();
         ShopCart GetById(int ShopCartID);
