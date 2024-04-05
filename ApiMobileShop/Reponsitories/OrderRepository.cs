@@ -17,36 +17,32 @@ namespace DataAccess.Repositories
         {
             _mobilecontext = MbContext;
         }
-        public async Task<(OrderDTO order, string error)> CreateOrder(string userId)//id tạo đơn hàng
+        public async Task<(string orderId, string error)> CreateOrder(string userId, Order order)
         {
             try
             {
-                var orderId = Guid.NewGuid().ToString();
+                // Gán userId cho đơn hàng
+                order.UserId = userId;
 
-                // Tạo đơn hàng mới
-                var order = new Order
-                {
-                    OrderId = orderId,
-                    UserId = userId,
-                    CreateDay = DateTime.Now
-                };
+                // Tạo một id mới cho đơn hàng
+                order.OrderId = Guid.NewGuid().ToString();
 
-                // Lưu đơn hàng vào cơ sở dữ liệu
+                // Gán ngày hiện tại cho trường CreateDay của đơn hàng
+                order.CreateDay = DateTime.Now;
+
+                // Thêm đơn hàng mới vào DbContext
                 _mobilecontext.Orders.Add(order);
+
+                // Lưu thay đổi vào cơ sở dữ liệu
                 await _mobilecontext.SaveChangesAsync();
 
-                var orderDto = new OrderDTO
-                {
-                    OrderId = order.OrderId,
-                    UserId = order.UserId,
-                    Create_Day = order.CreateDay
-                };
-
-                return (orderDto, null); // Trả về đơn hàng mới và không có lỗi
+                // Trả về id của đơn hàng mới và không có lỗi
+                return (order.OrderId, null);
             }
             catch (Exception ex)
             {
-                return (null, ex.Message); // Trả về null và thông báo lỗi
+                // Xử lý nếu có lỗi xảy ra
+                return (null, ex.Message);
             }
         }
         public async Task<(OrderDTO order, string error)> GetOrderById(string orderId, string userId)
@@ -68,38 +64,17 @@ namespace DataAccess.Repositories
             }
         }
 
-        public async Task<IEnumerable<OrderDTO>> GetAllOrders(string userId)
+        public async Task<IEnumerable<Order>> GetAllOrders()
         {
             try
             {
-                var orders = await _mobilecontext.Orders.Where(o => o.UserId == userId).ToListAsync();
-                var orderDtos = orders.Select(ConvertToDTO);
-                return orderDtos;
+                var orders = await _mobilecontext.Orders.ToListAsync();
+                return orders;
             }
             catch (Exception ex)
             {
-                // Xử lý exception
-                throw; // hoặc thực hiện xử lý khác tùy thuộc vào nhu cầu của bạn
-            }
-        }
-
-        public async Task<string> DeleteOrderById(string orderId, string userId)
-        {
-            try
-            {
-                var order = await _mobilecontext.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userId);
-                if (order == null)
-                {
-                    return "Order not found";
-                }
-
-                _mobilecontext.Orders.Remove(order);
-                await _mobilecontext.SaveChangesAsync();
-                return null; // Không có lỗi
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
+               //trả về danh sách rỗng
+                return new List<Order>();
             }
         }
 

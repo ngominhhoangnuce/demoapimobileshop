@@ -1,4 +1,5 @@
-﻿using ApiMobileShop.DTO;
+﻿using ApiMobileShop.Data;
+using ApiMobileShop.DTO;
 using ApiMobileShop.Reponsitories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace ApiMobileShop.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
+        private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly IOrderRepository _orderRepository;
 
         public OrderController(IOrderRepository orderRepository)
@@ -17,32 +19,44 @@ namespace ApiMobileShop.Controllers
         }
 
         [HttpPost("{userId}")]
-        public async Task<IActionResult> CreateOrder(string userId)
+        public async Task<IActionResult> CreateOrder(string userId, [FromBody] Order order)
         {
-            var (order, error) = await _orderRepository.CreateOrder(userId);
+            var (orderId, error) = await _orderRepository.CreateOrder(userId, order);
+
             if (error != null)
             {
                 return BadRequest(error);
             }
-            return Ok(order);
+
+            return Ok(new { orderId });
         }
 
-        [HttpGet("{userId}/{orderId}")]
-        public async Task<IActionResult> GetOrderById(string userId, string orderId)
+        [HttpGet("{orderId}")]
+        public IActionResult GetOrderById(string orderId)
         {
-            var (order, error) = await _orderRepository.GetOrderById(orderId, userId);
-            if (error != null)
+            var orderDetail = _orderDetailRepository.GetOrderDetailById(orderId);
+
+            if (orderDetail == null)
             {
-                return NotFound(error);
+                return NotFound(); // Trả về mã lỗi 404 Not Found nếu không tìm thấy đơn hàng
             }
-            return Ok(order);
+
+            return Ok(orderDetail); // Trả về mã lỗi 200 OK cùng với dữ liệu đơn hàng nếu tìm thấy thành công
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetAllOrders(string userId)
+        public async Task<IActionResult> GetAllOrders()
         {
-            var orders = await _orderRepository.GetAllOrders(userId);
-            return Ok(orders);
+            try
+            {
+                var orders = await _orderRepository.GetAllOrders();
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và trả về mã lỗi HTTP 400 (Bad Request)
+                return BadRequest("Bad Request: " + ex.Message);
+            }
         }
 
         [HttpDelete("{userId}/{orderId}")]
