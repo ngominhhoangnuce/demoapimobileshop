@@ -60,14 +60,18 @@ namespace ApiMobileShop.Controllers
         }
 
         [HttpDelete("{userId}/{orderId}")]
-        public async Task<IActionResult> DeleteOrderById(string userId, string orderId)
+        public async Task<IActionResult> DeleteOrder(string orderId, string userId)
         {
-            var error = await _orderRepository.DeleteOrderById(orderId, userId);
-            if (error != null)
+            var result = await _orderRepository.DeleteOrderById(orderId, userId);
+
+            if (result == "Order deleted successfully")
             {
-                return BadRequest(error);
+                return Ok(result); // Trả về mã lỗi 200 OK cùng với kết quả xóa đơn hàng
             }
-            return Ok("Order deleted successfully");
+            else
+            {
+                return BadRequest(result); // Trả về mã lỗi 400 Bad Request nếu xóa không thành công
+            }
         }
     }
 }

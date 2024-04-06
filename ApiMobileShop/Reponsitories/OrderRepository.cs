@@ -93,5 +93,20 @@ namespace DataAccess.Repositories
             };
         }
 
+        public async Task<string> DeleteOrderById(string orderId, string userId)
+        {
+            var order = await _mobilecontext.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == userId);
+
+            if (order != null)
+            {
+                _mobilecontext.Orders.Remove(order);
+                await _mobilecontext.SaveChangesAsync();
+                return "Order deleted successfully";
+            }
+            else
+            {
+                return "Failed to delete order";
+            }
+        }
     }  
 }
