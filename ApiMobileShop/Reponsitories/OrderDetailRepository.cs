@@ -5,7 +5,7 @@ namespace ApiMobileShop.Reponsitories
 {
     public class OrderDetailRepository : IOrderDetailRepository
     {
-        private readonly MobileContext _mydbcontext; // Thay YourDatabaseContext bằng context của bạn
+        private readonly MobileContext _mydbcontext;
 
         public OrderDetailRepository(MobileContext context)
         {
